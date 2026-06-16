@@ -1,0 +1,409 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-color: #f4f7f6;
+  --card-bg: #ffffff;
+  --text-primary: #2d3748;
+  --text-secondary: #718096;
+  --border-color: #e2e8f0;
+  
+  --primary-color: #3182ce;
+  --primary-hover: #2b6cb0;
+  
+  --income-color: #38a169;
+  --income-bg: #f0fff4;
+  
+  --expense-color: #e53e3e;
+  --expense-bg: #fff5f5;
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.module-container {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+}
+
+/* Month Selector */
+.month-selector {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.month-btn {
+  padding: 0.5rem 1rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.month-btn:hover {
+  background-color: #edf2f7;
+}
+
+.month-btn.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Summary Cards */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border-top: 4px solid var(--border-color);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.summary-card.balance { border-top-color: var(--primary-color); }
+.summary-card.income { border-top-color: var(--income-color); }
+.summary-card.expense { border-top-color: var(--expense-color); }
+
+.summary-title {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.summary-amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.summary-amount.income-text { color: var(--income-color); }
+.summary-amount.expense-text { color: var(--expense-color); }
+
+/* Main Content Area */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 50/50 Split Grid */
+.grid-50-50 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .grid-50-50 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Table Card */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: #f8fafc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+tbody tr:hover {
+  background-color: #f7fafc;
+}
+
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+
+.amount-income {
+  color: var(--income-color);
+  font-weight: 600;
+}
+
+.amount-expense {
+  color: var(--expense-color);
+  font-weight: 600;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-icon {
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.btn-icon:hover {
+  background: #edf2f7;
+  color: var(--text-primary);
+}
+
+/* Form Tabs */
+.form-card {
+  transition: all 0.3s ease;
+}
+.form-card.expense {
+  border-top: 4px solid var(--expense-color);
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.1);
+}
+.form-card.income {
+  border-top: 4px solid var(--income-color);
+  box-shadow: 0 4px 12px rgba(56, 161, 105, 0.1);
+}
+
+.form-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border: none;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--text-secondary);
+}
+
+.tab-btn:hover {
+  background: #edf2f7;
+}
+
+.tab-btn.expense.active {
+  background: white;
+  color: var(--expense-color);
+  border-bottom: 3px solid var(--expense-color);
+}
+
+.tab-btn.income.active {
+  background: white;
+  color: var(--income-color);
+  border-bottom: 3px solid var(--income-color);
+}
+
+.form-body {
+  padding: 1.5rem;
+  background: white;
+}
+
+.form-body form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.btn-expense {
+  background-color: var(--expense-color);
+  color: white;
+  width: 100%;
+}
+.btn-expense:hover {
+  background-color: #c53030;
+}
+
+.btn-income {
+  background-color: var(--income-color);
+  color: white;
+  width: 100%;
+}
+.btn-income:hover {
+  background-color: #2f855a;
+}
+
+/* Print View */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  /* Chỉ reset margin/padding khi đang in Phiếu Thu/Chi/Xuất */
+  body:has(#printable-receipt), 
+  body:has(#printable-receipt) #root, 
+  body:has(#printable-receipt) #root > div, 
+  body:has(#printable-receipt) #root > div > div, 
+  body:has(#printable-receipt) .module-container {
+    height: auto !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    position: static !important;
+    overflow: visible !important;
+  }
+
+  #printable-receipt {
+    display: block !important;
+    position: relative;
+    background: white;
+    color: black;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  @page {
+    size: A5 landscape;
+    margin: 0;
+  }
+}
+
+@media screen {
+  #printable-receipt {
+    display: none !important;
+  }
+}
