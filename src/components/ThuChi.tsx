@@ -400,9 +400,7 @@ export default function ThuChi() {
               <div>SĐT: 0933735073 - 0912737074</div>
             </div>
             <div style={{ width: '35%', textAlign: 'right', fontSize: '12px' }}>
-              <strong>Mẫu số: 01-TT</strong><br/>
-              (Ban hành theo QĐ số 15/2006/QĐ-BTC<br/>
-              ngày 20/03/2006 của Bộ trưởng BTC)
+              <strong>Số phiếu: {printRecord.id || '................'}</strong>
             </div>
           </div>
           
