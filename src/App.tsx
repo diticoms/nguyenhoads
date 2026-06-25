@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { LayoutDashboard, Wallet, ShoppingCart, UserCheck, Package, Users, BarChart3, LogOut } from 'lucide-react';
+import { LayoutDashboard, Wallet, ShoppingCart, UserCheck, Package, Users, BarChart3, LogOut, Menu, X } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import ThuChi from './components/ThuChi';
 import BanHang from './components/BanHang';
@@ -19,6 +19,7 @@ interface User {
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>('banhang');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const userStr = localStorage.getItem('erp_user');
@@ -28,8 +29,6 @@ export default function App() {
         setUser(parsed);
         if (parsed.role === 'admin') {
           setActiveTab('dashboard');
-        } else {
-          setActiveTab('banhang');
         }
       } catch (e) {}
     }
@@ -45,8 +44,8 @@ export default function App() {
   }
 
   const allNavItems = [
-    { id: 'dashboard', label: 'Tổng Quan', icon: BarChart3, roles: ['admin', 'staff', 'nhanvien', 'nhân viên'] },
-    { id: 'thuchi', label: 'Thu Chi', icon: Wallet, roles: ['admin', 'staff', 'nhanvien', 'nhân viên'] },
+    { id: 'dashboard', label: 'Tổng Quan', icon: BarChart3, roles: ['admin'] },
+    { id: 'thuchi', label: 'Sổ Thu Chi', icon: Wallet, roles: ['admin', 'staff', 'nhanvien', 'nhân viên'] },
     { id: 'banhang', label: 'Bán Hàng', icon: ShoppingCart, roles: ['admin', 'staff', 'nhanvien', 'nhân viên'] },
     { id: 'nhapkho', label: 'Kho & Nhập Hàng', icon: Package, roles: ['admin', 'staff', 'nhanvien', 'nhân viên'] },
     { id: 'congno', label: 'Công Nợ', icon: UserCheck, roles: ['admin', 'staff', 'nhanvien', 'nhân viên'] },
@@ -59,19 +58,27 @@ export default function App() {
     return item.roles.some(r => user.role.toLowerCase().includes(r));
   });
 
+  const handleTabClick = (id: TabType) => {
+    setActiveTab(id);
+    setIsMobileMenuOpen(false);
+  };
+
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--bg-color)' }}>
+    <div className="app-container">
+      {/* Mobile Header */}
+      <div className="mobile-header no-print">
+        <h1 style={{ fontSize: '18px', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <LayoutDashboard size={20} /> QC Nguyễn Hồ
+        </h1>
+        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="mobile-menu-btn">
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
       {/* Sidebar Navigation */}
-      <div className="no-print" style={{ 
-        width: '250px', 
-        backgroundColor: '#1e293b', 
-        color: '#fff', 
-        padding: '20px 0',
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
-        <div style={{ padding: '0 20px', marginBottom: '30px' }}>
-          <h1 style={{ fontSize: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div className={`sidebar no-print ${isMobileMenuOpen ? 'open' : ''}`}>
+        <div style={{ padding: '0 20px', marginBottom: '30px' }} className="desktop-logo">
+          <h1 style={{ fontSize: '20px', display: 'flex', alignItems: 'center', gap: '10px', margin: 0 }}>
             <LayoutDashboard size={24} /> QC Nguyễn Hồ
           </h1>
         </div>
@@ -91,7 +98,7 @@ export default function App() {
             return (
               <button 
                 key={item.id}
-                onClick={() => setActiveTab(item.id as TabType)}
+                onClick={() => handleTabClick(item.id as TabType)}
                 style={{ 
                   display: 'flex', alignItems: 'center', gap: '15px', padding: '15px 20px',
                   backgroundColor: isActive ? '#334155' : 'transparent',
@@ -121,7 +128,9 @@ export default function App() {
         </div>
       </div>
 
-      <div style={{ flex: 1, padding: '20px', overflowY: 'auto' }}>
+      {isMobileMenuOpen && <div className="overlay" onClick={() => setIsMobileMenuOpen(false)}></div>}
+
+      <div className="main-content">
         {activeTab === 'dashboard' && <Dashboard />}
         {activeTab === 'thuchi' && <ThuChi />}
         {activeTab === 'banhang' && <BanHang />}

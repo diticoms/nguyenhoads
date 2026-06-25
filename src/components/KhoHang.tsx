@@ -17,10 +17,6 @@ export default function KhoHang() {
 
   const [filterSearch, setFilterSearch] = useState('');
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
   const loadData = async () => {
     setLoading(true);
     try {
@@ -32,6 +28,10 @@ export default function KhoHang() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const handleProductSearch = (index: number, val: string) => {
     const newItems = [...items];
