@@ -19,7 +19,11 @@ interface User {
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
-  const [activeTab, setActiveTab] = useState<TabType>('banhang');
+  const [activeTab, setActiveTab] = useState<TabType>(() => {
+    if (user?.role === 'admin') return 'dashboard';
+    if (user?.username?.toLowerCase() === 'nv_03') return 'thuchi';
+    return 'banhang';
+  });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -30,6 +34,10 @@ export default function App() {
         setUser(parsed);
         if (parsed.role === 'admin') {
           setActiveTab('dashboard');
+        } else if (parsed.username?.toLowerCase() === 'nv_03') {
+          setActiveTab('thuchi');
+        } else {
+          setActiveTab('banhang');
         }
       } catch (e) {}
     }
@@ -40,8 +48,21 @@ export default function App() {
     setUser(null);
   };
 
+  const handleLoginSuccess = (loggedInUser: User) => {
+    setUser(loggedInUser);
+    if (loggedInUser.role === 'admin') {
+      setActiveTab('dashboard');
+    } else if (loggedInUser.username?.toLowerCase() === 'nv_02') {
+      setActiveTab('banhang');
+    } else if (loggedInUser.username?.toLowerCase() === 'nv_03') {
+      setActiveTab('thuchi');
+    } else {
+      setActiveTab('banhang');
+    }
+  };
+
   if (!user) {
-    return <Login onLoginSuccess={setUser} />;
+    return <Login onLoginSuccess={handleLoginSuccess} />;
   }
 
   const allNavItems = [
@@ -56,6 +77,15 @@ export default function App() {
   // Lọc menu theo phân quyền
   const allowedNavItems = allNavItems.filter(item => {
     if (user.role === 'admin') return true;
+    
+    const uname = user.username?.toLowerCase();
+    if (uname === 'nv_02') {
+      return ['banhang', 'nhapkho'].includes(item.id);
+    }
+    if (uname === 'nv_03') {
+      return ['thuchi', 'congno'].includes(item.id);
+    }
+    
     return item.roles.some(r => user.role?.toLowerCase().includes(r));
   });
 
